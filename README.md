@@ -23,7 +23,7 @@ Original development (0.1.0 - 0.2.1):
 
 - Gigabyte Z390 Aorus Pro WiFi, i5-9600KF (SMBIOS `MacPro7,1`), OpenCore 1.0.8
 - Fenvi T919 (Wi-Fi BCM4360, Bluetooth `BCM20702A0`, USB `0b05:180a`, ROM firmware v8718, **without** BrcmPatchRAM)
-- macOS Tahoe 26.7.2 (build `25G332`), Darwin 25.6.0
+- macOS Tahoe 26.7.2 (build `25G332`) and 26.7.3 (build `25G342`), Darwin 25.6.0
 - Lilu 1.7.2, BlueToolFixup 2.7.2, OCLP-CustoMac 3.0.3 root patches ("Modern Wireless")
 - iPhone on iOS 27.2, Apple Watch Series 4 on watchOS 10.6.2
 
@@ -299,10 +299,11 @@ Verified on:
 |-------|-------|-----------|----------|---------|
 | Tahoe 26.6 | `25G72` | Dell DW1560 / BCM20702A3 | iPhone 7 Plus, iOS 15.8.3 | 0.2.1 only, see below |
 | Tahoe 26.7.2 | `25G332` | Fenvi T919 / BCM20702A0 (USB `0b05:180a`, firmware v8718, no BrcmPatchRAM) | iPhone on iOS 27.2 | 0.3.0 |
+| Tahoe 26.7.3 | `25G342` | same machine | iPhone on iOS 27.2 | 0.3.0 |
 
 `25G72` has no table in 0.3.0 yet: generating it needs a clean copy of that build's `bluetoothd` (`python3 tools/port.py <bluetoothd> 25G72`). On a build without a table the kext loads and does nothing.
 
-Feature matrix on the 26.7.2 machine (BTLEAdvFix 0.3.0 + BTLERPAConnect 0.3.0, OCLP-CustoMac 3.0.3 "Modern Wireless" for Wi-Fi/AWDL):
+Feature matrix on that machine, same on 26.7.2 and 26.7.3 (BTLEAdvFix 0.3.0 + BTLERPAConnect 0.3.0, OCLP-CustoMac 3.0.3 "Modern Wireless" for Wi-Fi/AWDL):
 
 | Feature | Result |
 |---------|--------|
@@ -332,7 +333,7 @@ Keep a working EFI backup, and keep a reliable way to disable the plugin: the `-
 
 ## Changelog
 
-- **0.3.0**: build-independent sources. Patch sites are found by signature with `tools/port.py`, which generates one table per macOS build (`BTLEAdvFix/builds/`); the kext picks the table by macOS build, checks the `LC_UUID` of `bluetoothd` and never patches an unknown build. New advertising order for iOS 27.2 (NearbyAction first, otherwise AirDrop and NearbyInfo take turns). Added macOS 26.7.2 (25G332). `tools/check_patterns.py` is replaced by `tools/port.py --check`.
+- **0.3.0**: build-independent sources. Patch sites are found by signature with `tools/port.py`, which generates one table per macOS build (`BTLEAdvFix/builds/`); the kext picks the table by macOS build, checks the `LC_UUID` of `bluetoothd` and never patches an unknown build. New advertising order for iOS 27.2 (NearbyAction first, otherwise AirDrop and NearbyInfo take turns). Added macOS 26.7.2 (25G332) and 26.7.3 (25G342). `tools/check_patterns.py` is replaced by `tools/port.py --check`.
 - **0.2.1**: AirDrop-first routine (patches 2-4); AirDrop to iOS 15 now works reliably. `tools/check_patterns.py` checks branch targets; `tools/pklg_adv.py` decodes HCI traces.
 - **0.2.0** (not released): first AirDrop-first build. A branch into replaced bytes broke advertisement data.
 - **0.1.0**: single advertising instance (patch 1). BLE advertising works, but AirDrop to iOS 15 works only intermittently.
